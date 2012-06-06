@@ -1,0 +1,5 @@
+Import("env_link_to_getmemusage")
+env = env_link_to_getmemusage
+
+test = env.Program("getmemusage_tests", "test.cpp")
+

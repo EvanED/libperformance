@@ -1,0 +1,21 @@
+# -*- mode: python -*-
+
+Import("blank_env")
+
+sources = Split("""
+    getmemusage.cpp
+    block_tracker.cpp
+    """)
+
+headers = [
+    blank_env.File("getmemusage.h"),
+    blank_env.File("block_tracker.hpp")
+    ]
+lib = blank_env.SharedLibrary("getmemusage", sources)
+
+files = {
+    "lib": lib,
+    "include": headers
+    }
+
+Return("files")

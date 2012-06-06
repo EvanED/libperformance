@@ -18,6 +18,7 @@ Export("blank_env")
 blank_env["CXX"] = "/s/gcc-4.6.1/bin/g++"
 blank_env.Append(CXXFLAGS=["-std=gnu++0x"])
 blank_env.Append(CPPPATH=["/unsup/boost-1.47.0/include"])
+blank_env.Append(CCFLAGS=["-g"])
 
 ###################################
 #### Build getmemusage.so

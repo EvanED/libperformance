@@ -1,6 +1,9 @@
 #include <iostream>
 
+#include <unistd.h>
+
 #include "getmemusage.h"
+#include "block_tracker.hpp"
 
 ////////////////////////////////////////////
 // I should put this in its own header....
@@ -60,6 +63,9 @@ const long long five_hundred_mb = 1024 * 1024 * 500;
 
 int main(int argc, char** argv)
 {
+    block_tracker before_to_between("before to between");
+    block_tracker before_to_after("before to after");
+    
     bool good = true;
     
     memory_stats_t before, between, after;
@@ -71,6 +77,7 @@ int main(int argc, char** argv)
     }
 
     char* c = new char[five_hundred_mb]();
+    before_to_between.stop();
 
     ret = get_self_memory_usage(&between);
     if (ret) {
