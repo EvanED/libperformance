@@ -32,10 +32,23 @@ install_under(prefix, blank_env, getmemusage)
 env_link_to_getmemusage = blank_env.Clone()
 Export("env_link_to_getmemusage")
 
-env_link_to_getmemusage.Append(LIBS = ["getmemusage"])
+env_link_to_getmemusage.Append(LIBS = ["getmemusage", "rt"])
 env_link_to_getmemusage.Append(LIBPATH = [os.path.join(prefix, "lib")])
 env_link_to_getmemusage.Append(RPATH_TRANSFORM = [os.path.join(prefix, "lib")])
 env_link_to_getmemusage.Append(CPPPATH = [os.path.join(prefix, "include")])
 
 env_link_to_getmemusage.SConscript("getmemusage/tests/SConscript")
 
+###################################
+#### Build monitor.so
+
+monitor = env_link_to_getmemusage.SConscript("monitor/src/SConscript")
+
+install_under(prefix, env_link_to_getmemusage, monitor)
+
+#### Build tests
+
+env_link_to_monitor = env_link_to_getmemusage.Clone()
+env_link_to_monitor.Append(LIBS=["monitor"])
+
+env_link_to_monitor.Program("dumb", "monitor/src/program.cpp")

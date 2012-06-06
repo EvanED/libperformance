@@ -1,6 +1,8 @@
+#include <functional>
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <vector>
 
 #include <cassert>
 
@@ -12,10 +14,31 @@
 
 #include "getmemusage.h"
 
+extern "C" void annotate(const char * str);
+
+
 namespace {
-    void end() __attribute__((destructor(1000)));
+    struct DestructionRunner {
+        std::function<void ()> callee;
+
+        template<typename Callable>
+        DestructionRunner(Callable c)
+            : callee(c)
+        {}
+
+        ~DestructionRunner() {
+            callee();
+        }
+    };
+
+    const double nsec_to_sec = 1000000000.0;
+    const int bytes_to_mb = 1024 * 1024;
+    
+    void end();
     int outfile_fd = -1;
     timespec start_time;
+
+    std::vector<std::pair<timespec, std::string>> annotations;
 
     // This function licensced under the MIT license. From
     // http://www.geonius.com/software/libgpl/ts_util.html.
@@ -65,23 +88,26 @@ namespace {
            << "plt.plot(elapsed, vm_bytes_peak, \"k\",\n"
            << "         elapsed, vm_resident_bytes_peak, \"k\",\n"
            << "         elapsed, vm_bytes, \"r\",\n"
-           << "         elapsed, resident_bytes, \"b\")\n"
-           << "plt.savefig(\"blah.pdf\", format=\"pdf\")\n";
+           << "         elapsed, resident_bytes, \"b\")\n";
+
+        for (auto const & ann : annotations) {
+            double time = ann.first.tv_sec + ann.first.tv_nsec/nsec_to_sec;
+            ss << "plt.annotate(\"" << ann.second << "\", "
+               << "xy=(" << time << ",1), xytext=(" << time << ",1), "
+               << "rotation=\"vertical\", va=\"bottom\", size=\"x-small\")\n";
+        }
+        
+        ss << "plt.savefig(\"blah.pdf\", format=\"pdf\")\n";
         
         std::string s = ss.str();
         ssize_t ret = write(outfile_fd, s.c_str(), s.size());
         assert(ret == s.size());
     }
 
-    const double nsec_to_sec = 1000000000.0;
-    const int bytes_to_mb = 1024 * 1024;
-    
     void alarm(int x)
     {
         timespec time;
-
         clock_gettime(CLOCK_REALTIME, &time);
-        
         timespec diff = tsSubtract(time, start_time);
         
         memory_stats_t m;
@@ -128,23 +154,18 @@ namespace {
 
         print_suffix();
     }
+
+    DestructionRunner ender(end);
 }
 
-
-int main()
+void annotate(const char * str)
 {
-    char * c[6];
-    for(int i=0; i<6; ++i) {
-        sleep(10);
-        if(i<3) {
-            c[i] = new char[1000*1000];
-        }
-        else {
-            c[i] = new char[1000*1000]();
-        }
-    }
-    for(int i=0; i<6; ++i) {
-        sleep(10);        
-        delete[] c[i];
-    }
+    timespec time;
+    clock_gettime(CLOCK_REALTIME, &time);
+    timespec diff = tsSubtract(time, start_time);
+
+    annotations.push_back(std::make_pair(diff, std::string(str)));
 }
+
+
+
