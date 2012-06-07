@@ -19,7 +19,8 @@ three main features:
 * [Graphing the memory use](#graphing-the-memory-use-of-a-process) of a
   program over time, optionally with annotations showing program events.
 
-For example:
+For example, this graph was generated from
+[`monitor/src/program.cpp`](https://github.com/EvanED/perfcounter/blob/master/monitor/src/program.cpp):
 
 ![Memory usage graph](https://github.com/EvanED/perfcounter/raw/master/doc/example.png)
 
