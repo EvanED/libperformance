@@ -1,0 +1,11 @@
+PerfCounter
+===========
+Evan Driscoll <driscoll@cs.wisc.edu>
+
+
+Overview
+--------
+
+This library does stuff.
+
+image::doc/example.png[]
