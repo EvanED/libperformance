@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "getmemusage", "getmemusage\getmemusage.vcxproj", "{2BFB8167-7F84-453B-B1B6-487AC9F87748}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "monitor", "monitor\monitor.vcxproj", "{3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BFB8167-7F84-453B-B1B6-487AC9F87748}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2BFB8167-7F84-453B-B1B6-487AC9F87748}.Debug|Win32.Build.0 = Debug|Win32
+		{2BFB8167-7F84-453B-B1B6-487AC9F87748}.Release|Win32.ActiveCfg = Release|Win32
+		{2BFB8167-7F84-453B-B1B6-487AC9F87748}.Release|Win32.Build.0 = Release|Win32
+		{3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99}.Debug|Win32.Build.0 = Debug|Win32
+		{3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99}.Release|Win32.ActiveCfg = Release|Win32
+		{3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
