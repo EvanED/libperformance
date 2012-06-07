@@ -166,7 +166,12 @@ void annotate(const char * str)
     clock_gettime(CLOCK_REALTIME, &time);
     timespec diff = tsSubtract(time, start_time);
 
-    annotations.push_back(std::make_pair(diff, std::string(str)));
+    double time_sec = diff.tv_sec + diff.tv_nsec/nsec_to_sec;
+
+    std::stringstream ss;
+    ss << str << " (" << time_sec << "sec)";
+
+    annotations.push_back(std::make_pair(diff, std::string(ss.str())));
 }
 
 
