@@ -152,6 +152,8 @@ namespace {
     {
         signal(SIGVTALRM, SIG_DFL);
 
+        annotate("Program end");
+
         print_suffix();
     }
 
