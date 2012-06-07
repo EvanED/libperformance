@@ -1,7 +1,5 @@
 #include <iostream>
 
-#include <unistd.h>
-
 #include "getmemusage.h"
 #include "block_tracker.hpp"
 
