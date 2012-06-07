@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2BFB8167-7F84-453B-B1B6-487AC9F87748}</ProjectGuid>
+    <ProjectGuid>{80AB07EB-6E2E-467C-A5E5-480DF46E6FAF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>getmemusage</RootNamespace>
+    <RootNamespace>getmumusagetest</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -74,8 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\getmemusage\src\block_tracker.hpp" />
-    <ClInclude Include="..\..\..\getmemusage\src\getmemusage.h" />
+    <ClCompile Include="..\..\..\getmemusage\tests\test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

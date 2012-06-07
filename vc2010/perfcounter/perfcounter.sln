@@ -4,6 +4,34 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "getmemusage", "getmemusage\getmemusage.vcxproj", "{2BFB8167-7F84-453B-B1B6-487AC9F87748}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "monitor", "monitor\monitor.vcxproj", "{3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2BFB8167-7F84-453B-B1B6-487AC9F87748} = {2BFB8167-7F84-453B-B1B6-487AC9F87748}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unix copies", "Unix copies", "{0FFB9ADE-461D-45DD-B35D-AECC1734AE45}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "getmemusage", "getmemusage", "{375053F8-7F88-475E-90F4-EB9FEE3EB37B}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\getmemusage\src\block_tracker.cpp = ..\..\getmemusage\src\block_tracker.cpp
+		..\..\getmemusage\src\getmemusage.cpp = ..\..\getmemusage\src\getmemusage.cpp
+		..\..\getmemusage\src\SConscript = ..\..\getmemusage\src\SConscript
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "monitor", "monitor", "{7A15E0D4-7C49-4B4C-8C9E-E53B9A5EABA4}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\monitor\src\monitor.cpp = ..\..\monitor\src\monitor.cpp
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "getmumusage test", "getmumusage test\getmumusage test.vcxproj", "{80AB07EB-6E2E-467C-A5E5-480DF46E6FAF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2BFB8167-7F84-453B-B1B6-487AC9F87748} = {2BFB8167-7F84-453B-B1B6-487AC9F87748}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "monitor demo", "monitor demo\monitor demo.vcxproj", "{8CB6543A-9B2D-4406-A5BA-1BF54240879D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2BFB8167-7F84-453B-B1B6-487AC9F87748} = {2BFB8167-7F84-453B-B1B6-487AC9F87748}
+		{3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99} = {3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +47,20 @@ Global
 		{3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99}.Debug|Win32.Build.0 = Debug|Win32
 		{3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99}.Release|Win32.ActiveCfg = Release|Win32
 		{3F5C1C80-806C-42DD-AA8D-2F30DEB3DC99}.Release|Win32.Build.0 = Release|Win32
+		{80AB07EB-6E2E-467C-A5E5-480DF46E6FAF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{80AB07EB-6E2E-467C-A5E5-480DF46E6FAF}.Debug|Win32.Build.0 = Debug|Win32
+		{80AB07EB-6E2E-467C-A5E5-480DF46E6FAF}.Release|Win32.ActiveCfg = Release|Win32
+		{80AB07EB-6E2E-467C-A5E5-480DF46E6FAF}.Release|Win32.Build.0 = Release|Win32
+		{8CB6543A-9B2D-4406-A5BA-1BF54240879D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8CB6543A-9B2D-4406-A5BA-1BF54240879D}.Debug|Win32.Build.0 = Debug|Win32
+		{8CB6543A-9B2D-4406-A5BA-1BF54240879D}.Release|Win32.ActiveCfg = Release|Win32
+		{8CB6543A-9B2D-4406-A5BA-1BF54240879D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{375053F8-7F88-475E-90F4-EB9FEE3EB37B} = {0FFB9ADE-461D-45DD-B35D-AECC1734AE45}
+		{7A15E0D4-7C49-4B4C-8C9E-E53B9A5EABA4} = {0FFB9ADE-461D-45DD-B35D-AECC1734AE45}
 	EndGlobalSection
 EndGlobal
