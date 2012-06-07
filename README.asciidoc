@@ -10,12 +10,13 @@ This library provides mechanisms for tracking the memory and time use of a
 program. It is platform-independent (read: Linux and Windows) and supports
 three main features:
 
-* <<query,Querying the memory use>> of a program. (Both peak and current, and
-  both VM size and resident/working set size.)
-* <<track,Tracking the memory and time use>> of a program over a portion of
-  the execution.
-* <<graph,Graphing the memory use of a program over time>>, optionally with
-  annotations showing program events.
+* <<querying-the-memory-use-of-a-program,Querying the memory use>> of a
+  program. (Both peak and current, and both VM size and resident/working set
+  size.)
+* <<tracking-the-memory-and-time-use-of-a-program,Tracking the memory and
+  time use>> of a program over a portion of the execution.
+* <<graphing-the-memory-use-of-a-process,Graphing the memory use of a program
+  over time>>, optionally with annotations showing program events.
 
 For example:
 
@@ -155,7 +156,7 @@ Graphing the memory use of a process
 ------------------------------------
 
 __This library should work with any language that can correctly link against
-a C++ library and have constructors and destructors called at the appropriate
+a C\++ library and have constructors and destructors called at the appropriate
 time. The ++annotate()++ function works with C or C++.__
 
 This will allow you to easily create graphs such as the following:
