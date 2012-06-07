@@ -34,6 +34,33 @@ Also, function, class, and field names may be renamed aggressively in the
 future. (Also file and library names. And maybe even the project.)
 
 
+Building
+========
+
+On Windows, use the project files in the ++vc2010/++. Only the debug
+configuration has been tested, but the libraries 'should' build under the
+release configuration as well. The demo projects probably won't, but just
+because `../Release` needs to be added to the library include paths.
+
+Once they are built, find the ++monitor.lib++ and ++getmemusage.lib++
+libraries (both are static) and link against one or both of them. You'll also
+have to make your project know where the headers are. (You can freely move
+both libraries and headers around.)
+
+On Linux, build using ++scons++. Right now the compiler path is hard-coded to
+something particular to our environment, but you can feel free to change
+that. You'll need a recent GCC though, I think 4.6 or later (at least for
+now). (You don't need to use such a recent version for your own project, only
+the library needs to be built with it.) You'll have to set `LD_LIBRARY_PATH`
+to find the libraries as the `RPATH` setup relies on a patched version of
+`scons`.
+
+After `scons` is run, you should have an `install/` directory with `lib/` and
+`include/` subdirectories. These are the only files you'll need to use the
+library, and you can move them around freely. (Right now only shared
+libraries are built on Linux.)
+
+
 Querying the memory use of a program
 ====================================
 
@@ -68,7 +95,7 @@ Technical information
 
 On Linux, the VM sizes correspond to the `VmSize` and `VmPeak` fields of
 the `proc/_pid_/status` contents. The resident set sizes correspond to
-the `VmRSS` and `VmHWM` fields. (`HWM` stands for `high water mark' and
+the `VmRSS` and `VmHWM` fields. (`HWM` stands for 'high water mark' and
 corresponds to the `resident_bytes_peak` field.) You will need read
 permission to that file.
 
