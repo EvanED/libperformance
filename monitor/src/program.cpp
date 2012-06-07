@@ -1,4 +1,10 @@
+#ifdef _MSC_VER
+#include <Windows.h>
+#define SLEEP Sleep(500);
+#else
 #include <unistd.h>
+#define SLEEP sleep(10);
+#endif
 
 extern "C" void annotate(const char * str);
 
@@ -6,7 +12,7 @@ int main()
 {
     char * c[12] = {nullptr};
     for(int i=0; i<12; ++i) {
-        sleep(10);
+        SLEEP;
         if(i<6 && i%2 == 0) {
             annotate("allocate");
             c[i] = new char[1000*1000];
@@ -17,7 +23,7 @@ int main()
         }
     }
     for(int i=0; i<12; ++i) {
-        sleep(10);
+        SLEEP;
         annotate("deallocate");
         delete[] c[i];
     }
