@@ -8,4 +8,4 @@ Overview
 
 This library does stuff.
 
-image::doc/example.png[]
+image::https://github.com/EvanED/perfcounter/raw/master/doc/example.png[]
