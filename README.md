@@ -9,17 +9,19 @@ This library provides mechanisms for tracking the memory and time use of a
 program. It is platform-independent (read: Linux and Windows) and supports
 three main features:
 
-* Querying the memory use of a
+    
+* [Querying the memory use](#querying-the-memory-use-of-a-program) of a
   program. (Both peak and current, and both VM size and resident/working set
   size.)
-* Tracking the memory and
-  time use of a program over a portion of the execution.
-* Graphing the memory use of a program
-  over time, optionally with annotations showing program events.
+* [Tracking the memory and time
+  use](#tracking-the-memory-and-time-use-of-a-program) of a program over a
+  portion of the execution.
+* [Graphing the memory use](#graphing-the-memory-use-of-a-process) of a
+  program over time, optionally with annotations showing program events.
 
 For example:
 
-![Memory usage graph](image::https://github.com/EvanED/perfcounter/raw/master/doc/example.png)
+![Memory usage graph](https://github.com/EvanED/perfcounter/raw/master/doc/example.png)
 
 Caveats
 -------
@@ -146,7 +148,7 @@ time. The `annotate()` function works with C or C++.*
 
 This will allow you to easily create graphs such as the following:
 
-![Memory usage graph](image::https://github.com/EvanED/perfcounter/raw/master/doc/example.png)
+![Memory usage graph](https://github.com/EvanED/perfcounter/raw/master/doc/example.png)
 
 In this graph, the red line is the VM size, the blue line is the
 resident/working set size, and the black lines are the peak versions of those
