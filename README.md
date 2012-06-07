@@ -37,17 +37,17 @@ future. (Also file and library names. And maybe even the project.)
 Building
 ========
 
-On Windows, use the project files in the ++vc2010/++. Only the debug
+**On Windows**, use the project files in the `vc2010/`. Only the debug
 configuration has been tested, but the libraries 'should' build under the
 release configuration as well. The demo projects probably won't, but just
 because `../Release` needs to be added to the library include paths.
 
-Once they are built, find the ++monitor.lib++ and ++getmemusage.lib++
+Once they are built, find the `monitor.lib` and `getmemusage.lib`
 libraries (both are static) and link against one or both of them. You'll also
 have to make your project know where the headers are. (You can freely move
 both libraries and headers around.)
 
-On Linux, build using ++scons++. Right now the compiler path is hard-coded to
+**On Linux**, build using `scons`. Right now the compiler path is hard-coded to
 something particular to our environment, but you can feel free to change
 that. You'll need a recent GCC though, I think 4.6 or later (at least for
 now). (You don't need to use such a recent version for your own project, only
