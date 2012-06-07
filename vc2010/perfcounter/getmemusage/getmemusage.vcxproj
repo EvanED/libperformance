@@ -79,6 +79,7 @@
     <ClInclude Include="..\..\..\getmemusage\src\getmemusage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\getmemusage\src\block_tracker.windows.cpp" />
     <ClCompile Include="..\..\..\getmemusage\src\getmumusage.windows.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
