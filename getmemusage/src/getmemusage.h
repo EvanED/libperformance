@@ -16,6 +16,18 @@ extern "C" {
     extern
     int get_process_memory_usage(int pid, memory_stats_t * out_stats);
 
+    extern
+    int get_self_vm_bytes(long long * out_bytes);
+
+    extern
+    int get_self_vm_peak(long long * out_bytes);
+
+    extern
+    int get_self_resident_bytes(long long * out_bytes);
+
+    extern
+    int get_self_resident_peak(long long * out_bytes);
+
 #ifdef __cplusplus
 }
 #endif

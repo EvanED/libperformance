@@ -25,5 +25,8 @@
     <ClCompile Include="..\..\..\getmemusage\src\block_tracker.windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\getmemusage\src\getmemusage.common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
