@@ -9,11 +9,36 @@
 #include <Windows.h>
 
 #include "getmemusage.h"
+#include "boost/scoped_ptr.hpp"
 
-extern "C" void annotate(const char * str);
+#include "../../../monitor/src/monitor.h"
 
 
 namespace {
+    struct ErrorReturnerWrapper {
+        error_returner_t const func;
+
+        long long operator()() {
+            long long out;
+            int err = func(&out);
+            if (err) {
+                throw "Error!";
+            }
+            return out;
+        }
+
+        ErrorReturnerWrapper(error_returner_t f)
+            : func(f)
+        {}
+
+    private:
+        void operator=(ErrorReturnerWrapper const & other);
+    };
+
+    typedef std::pair<std::function<long long()>, std::string> Tracker;
+
+    std::vector<Tracker> trackers;
+
     struct DestructionRunner {
         std::function<void ()> callee;
 
@@ -171,5 +196,13 @@ void annotate(const char * str)
     annotations.push_back(std::make_pair(diff_sec, std::string(str)));
 }
 
+void register_tracker_error_returner_t(error_returner_t tracker, char const * key)
+{
+    trackers.push_back(Tracker(ErrorReturnerWrapper(tracker), key));
+}
 
+void register_tracker_value_returner_t(value_returner_t tracker, char const * key)
+{
+    trackers.push_back(Tracker(tracker, key));
+}
 
