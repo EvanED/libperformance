@@ -66,43 +66,11 @@ namespace {
     const double nsec_to_sec = 1000000000.0;
     const int bytes_to_mb = 1024 * 1024;
 
-    std::ofstream outfile("blah.py");
-    
     void end();
-    int outfile_fd = -1;
     LARGE_INTEGER start_time;
 
     typedef std::vector<std::pair<double, std::string>> annotation_list;
     annotation_list annotations;
-
-    void print_prefix()
-    {
-        std::string s = "[\n";
-        outfile << s;
-        assert(outfile.good());
-    }
-
-    void print_suffix()
-    {
-        std::stringstream ss;
-        ss << "]\n";
-
-        for (annotation_list::const_iterator it = annotations.begin();
-             it != annotations.end(); ++it) 
-        {
-            auto const & ann = *it;
-            double time = ann.first;
-            ss << "plt.annotate(\"" << ann.second << "\", "
-               << "xy=(" << time << ",1), xytext=(" << time << ",1), "
-               << "rotation=\"vertical\", va=\"bottom\", size=\"x-small\")\n";
-        }
-        
-        ss << "plt.savefig(\"blah.pdf\", format=\"pdf\")\n";
-        
-        std::string s = ss.str();
-        outfile << s;
-        assert(outfile.good());
-    }
 
     void alarm()
     {
@@ -141,19 +109,13 @@ namespace {
 
     DWORD __stdcall loop_the_loop(LPVOID)
     {
-        assert(outfile.good());
-        
         BOOL ret = QueryPerformanceCounter(&start_time);
         assert(ret);
-        
-        print_prefix();
         
         while(gogogo) {
           Sleep(250);
           alarm();
         }
-
-        print_suffix();
 
         return 0;
     }
