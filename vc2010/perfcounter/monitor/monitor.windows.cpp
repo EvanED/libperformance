@@ -118,6 +118,7 @@ namespace {
         
         std::stringstream ss;
         ss << "{ ";
+        ss << "\"time_offset_sec\": " << diff_sec << ", ";
         //std::vector<Tracker> trackers;
         std::for_each(trackers.begin(), trackers.end(),
                       [&ss](Tracker & t) {
