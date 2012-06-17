@@ -18,10 +18,16 @@ extern "C" {
   typedef long long (*value_returner_t)();
 
   extern
-  void register_tracker_error_returner_t(error_returner_t tracker, char const * key);
+  void register_tracker_error_returner(error_returner_t tracker, char const * key);
 
   extern
-  void register_tracker_value_returner_t(value_returner_t tracker, char const * key);
+  void register_tracker_value_returner(value_returner_t tracker, char const * key);
+
+  /// You may not store or free the value of the argument. It is managed by the system.
+  typedef void (*monitor_callback_t)(char const *);
+
+  extern
+  void register_montior_callback(monitor_callback_t callback);
 
 #ifdef __cplusplus
 }

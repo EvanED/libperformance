@@ -38,6 +38,7 @@ namespace {
     typedef std::pair<std::function<long long()>, std::string> Tracker;
 
     std::vector<Tracker> trackers;
+    std::vector<std::function<void (char const*)>> callbacks;
 
     struct DestructionRunner {
         std::function<void ()> callee;
@@ -74,7 +75,7 @@ namespace {
 
     void print_prefix()
     {
-        std::string s = "data = [\n";
+        std::string s = "[\n";
         outfile << s;
         assert(outfile.good());
     }
@@ -82,18 +83,7 @@ namespace {
     void print_suffix()
     {
         std::stringstream ss;
-        ss << "]\n"
-           << "\n"
-           << "data_t = zip(*data)\n"
-           << "[elapsed, vm_bytes, resident_bytes, vm_bytes_peak, vm_resident_bytes_peak] = data_t\n"
-           << "\n"
-           << "import matplotlib\n"
-           << "matplotlib.use(\"PDF\")\n"
-           << "import matplotlib.pyplot as plt\n"
-           << "plt.plot(elapsed, vm_bytes_peak, \"k\",\n"
-           << "         elapsed, vm_resident_bytes_peak, \"k\",\n"
-           << "         elapsed, vm_bytes, \"r\",\n"
-           << "         elapsed, resident_bytes, \"b\")\n";
+        ss << "]\n";
 
         for (annotation_list::const_iterator it = annotations.begin();
              it != annotations.end(); ++it) 
@@ -196,13 +186,17 @@ void annotate(const char * str)
     annotations.push_back(std::make_pair(diff_sec, std::string(str)));
 }
 
-void register_tracker_error_returner_t(error_returner_t tracker, char const * key)
+void register_tracker_error_returner(error_returner_t tracker, char const * key)
 {
     trackers.push_back(Tracker(ErrorReturnerWrapper(tracker), key));
 }
 
-void register_tracker_value_returner_t(value_returner_t tracker, char const * key)
+void register_tracker_value_returner(value_returner_t tracker, char const * key)
 {
     trackers.push_back(Tracker(tracker, key));
 }
 
+void register_monitor_callback(monitor_callback_t callback)
+{
+    callbacks.push_back(callback);
+}
