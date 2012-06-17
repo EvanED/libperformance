@@ -1,4 +1,5 @@
 #include <functional>
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -36,6 +37,7 @@ namespace {
     };
 
     typedef std::pair<std::function<long long()>, std::string> Tracker;
+    typedef std::function<void (char const*)> Callback;
 
     std::vector<Tracker> trackers;
     std::vector<std::function<void (char const*)>> callbacks;
@@ -114,20 +116,24 @@ namespace {
 
         double diff_sec = (time.QuadPart - start_time.QuadPart)/static_cast<double>(freq.QuadPart);
         
-        memory_stats_t m;
-        get_self_memory_usage(&m);
-
         std::stringstream ss;
-        ss << "    ["
-           << diff_sec << ", "
-           << m.vm_bytes/bytes_to_mb << ", "
-           << m.resident_bytes/bytes_to_mb << ","       
-           << m.vm_bytes_peak/bytes_to_mb << ", "
-           << m.resident_bytes_peak/bytes_to_mb << "],\n";
+        ss << "{ ";
+        //std::vector<Tracker> trackers;
+        std::for_each(trackers.begin(), trackers.end(),
+                      [&ss](Tracker & t) {
+                          ss << "\"" << t.second << "\": " << t.first() << ", ";
+                      });
 
-        std::string s = ss.str();
-        outfile << s;
-        assert(outfile.good());
+        ss << "}";
+
+        std::string const & str = ss.str();
+        char const * cstr = str.c_str();
+
+        // std::vector<Callback> callbacks;
+        std::for_each(callbacks.begin(), callbacks.end(),
+                      [cstr](Callback & cb) {
+                          cb(cstr);
+                     });
     }
 
     volatile bool gogogo = true;
