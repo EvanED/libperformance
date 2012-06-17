@@ -20,13 +20,13 @@ extern "C" {
     int get_self_vm_bytes(long long * out_bytes);
 
     extern
-    int get_self_vm_peak(long long * out_bytes);
+    int get_self_vm_bytes_peak(long long * out_bytes);
 
     extern
     int get_self_resident_bytes(long long * out_bytes);
 
     extern
-    int get_self_resident_peak(long long * out_bytes);
+    int get_self_resident_bytes_peak(long long * out_bytes);
 
 #ifdef __cplusplus
 }

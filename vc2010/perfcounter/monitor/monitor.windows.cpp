@@ -113,7 +113,7 @@ namespace {
         assert(ret);
         
         while(gogogo) {
-          Sleep(250);
+          Sleep(500);
           alarm();
         }
 
@@ -124,8 +124,16 @@ namespace {
 
     void start()
     {
-      loop_thread = CreateThread(NULL, 0, loop_the_loop, 0, 0, NULL);
-      assert(loop_thread != NULL);
+        // For testing purposes
+        register_tracker_error_returner(get_self_vm_bytes, "VM bytes");
+        register_tracker_error_returner(get_self_resident_bytes, "RSS bytes");
+        register_tracker_error_returner(get_self_vm_bytes_peak, "VM bytes peak");
+        register_tracker_error_returner(get_self_resident_bytes_peak, "RSS bytes peak");
+
+        register_monitor_callback([](char const * str) -> void { std::cout << str << "\n"; });
+
+        loop_thread = CreateThread(NULL, 0, loop_the_loop, 0, 0, NULL);
+        assert(loop_thread != NULL);
     }
 
     void end()

@@ -43,7 +43,7 @@ extern
 void register_tracker(std::function<long long ()>, std::string const & str);
 
 extern
-void register_monitor_callback(std::function<void (char const *)>);
+void register_monitor_callback(std::function<void (char const *)> const &);
 
 #endif
 
