@@ -169,3 +169,13 @@ void register_monitor_callback(monitor_callback_t callback)
 {
     callbacks.push_back(callback);
 }
+
+void register_tracker(std::function<long long ()> const & tracker, std::string const & key)
+{
+    trackers.push_back(Tracker(tracker, key));
+}
+
+void register_monitor_callback(std::function<void (char const *)> const & callback)
+{
+    callbacks.push_back(callback);
+}

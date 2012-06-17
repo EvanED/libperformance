@@ -23,6 +23,7 @@ extern "C" {
   extern
   void register_tracker_value_returner(value_returner_t tracker, char const * key);
 
+
   /// You may not store or free the value of the argument. It is managed by the system.
   typedef void (*monitor_callback_t)(char const *);
 
@@ -32,5 +33,19 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+
+#ifdef __cplusplus
+#include <functional>
+#include <string>
+
+extern
+void register_tracker(std::function<long long ()>, std::string const & str);
+
+extern
+void register_monitor_callback(std::function<void (char const *)>);
+
+#endif
+
 
 #endif
