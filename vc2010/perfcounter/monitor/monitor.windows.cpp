@@ -10,7 +10,11 @@
 #include <Windows.h>
 
 #include "getmemusage.h"
-#include "boost/scoped_ptr.hpp"
+
+#include <boost/scoped_ptr.hpp>
+#include <boost/chrono.hpp>
+
+namespace chrono = boost::chrono;
 
 #include "../../../monitor/src/monitor.h"
 
@@ -63,26 +67,18 @@ namespace {
         }
     };
 
-    const double nsec_to_sec = 1000000000.0;
     const int bytes_to_mb = 1024 * 1024;
 
     void end();
-    LARGE_INTEGER start_time;
+    chrono::system_clock::time_point start_time;
 
     typedef std::vector<std::pair<double, std::string>> annotation_list;
     annotation_list annotations;
 
     void alarm()
     {
-        LARGE_INTEGER time;
-        BOOL ret = QueryPerformanceCounter(&time);
-        assert(ret);
-
-        LARGE_INTEGER freq;
-        ret = QueryPerformanceFrequency(&freq);
-        assert(ret);
-
-        double diff_sec = (time.QuadPart - start_time.QuadPart)/static_cast<double>(freq.QuadPart);
+        chrono::duration<double> diff = chrono::system_clock::now() - start_time;
+        double diff_sec = diff.count();
         
         std::stringstream ss;
         ss << "{ ";
@@ -109,9 +105,6 @@ namespace {
 
     DWORD __stdcall loop_the_loop(LPVOID)
     {
-        BOOL ret = QueryPerformanceCounter(&start_time);
-        assert(ret);
-        
         while(gogogo) {
           Sleep(500);
           alarm();
@@ -150,15 +143,8 @@ namespace {
 
 void annotate(const char * str)
 {
-    LARGE_INTEGER time;
-    BOOL ret = QueryPerformanceCounter(&time);
-    assert(ret);
-
-    LARGE_INTEGER freq;
-    ret = QueryPerformanceFrequency(&freq);
-    assert(ret);
-
-    double diff_sec = (time.QuadPart - start_time.QuadPart)/static_cast<double>(freq.QuadPart);
+    chrono::duration<double> diff = chrono::system_clock::now() - start_time;
+    double diff_sec = diff.count();
 
     annotations.push_back(std::make_pair(diff_sec, std::string(str)));
 }
