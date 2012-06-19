@@ -3,18 +3,19 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include <vector>
-
 #include <cassert>
-
-#include <Windows.h>
+#include <vector>
 
 #include "getmemusage.h"
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/thread/thread_time.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/chrono.hpp>
+#include <boost/thread.hpp>
 
 namespace chrono = boost::chrono;
+using boost::thread;
 
 #include "../../../monitor/src/monitor.h"
 
@@ -103,17 +104,15 @@ namespace {
 
     volatile bool gogogo = true;
 
-    DWORD __stdcall loop_the_loop(LPVOID)
+    void loop_the_loop()
     {
         while(gogogo) {
-          Sleep(500);
+          thread::sleep(boost::get_system_time() + boost::posix_time::milliseconds(250));
           alarm();
         }
-
-        return 0;
     }
 
-    HANDLE loop_thread;
+    thread loop_thread;
 
     void start()
     {
@@ -125,16 +124,14 @@ namespace {
 
         register_monitor_callback([](char const * str) -> void { std::cout << str << "\n"; });
 
-        loop_thread = CreateThread(NULL, 0, loop_the_loop, 0, 0, NULL);
-        assert(loop_thread != NULL);
+        loop_thread = thread(loop_the_loop);
     }
 
     void end()
     {
         gogogo = false;
 
-        DWORD ret = WaitForSingleObject(loop_thread, INFINITE);
-        assert(ret == WAIT_OBJECT_0);
+        loop_thread.join();
     }
 
     ConstructionRunner starter(start);
