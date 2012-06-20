@@ -71,19 +71,25 @@ namespace {
     const int bytes_to_mb = 1024 * 1024;
 
     void end();
+    
+    bool start_time_set = false;
     chrono::system_clock::time_point start_time;
+
+    double elapsed_sec()
+    {
+        assert(start_time_set);
+        chrono::duration<double> diff = chrono::system_clock::now() - start_time;
+        return diff.count();
+    }
 
     typedef std::vector<std::pair<double, std::string>> annotation_list;
     annotation_list annotations;
 
     void alarm()
     {
-        chrono::duration<double> diff = chrono::system_clock::now() - start_time;
-        double diff_sec = diff.count();
-        
         std::stringstream ss;
         ss << "{ ";
-        ss << "\"time_offset_sec\": " << diff_sec << ", ";
+        ss << "\"time_offset_sec\": " << elapsed_sec() << ", ";
         //std::vector<Tracker> trackers;
         std::for_each(trackers.begin(), trackers.end(),
                       [&ss](Tracker & t) {
@@ -116,6 +122,9 @@ namespace {
 
     void start()
     {
+        start_time_set = true;
+        start_time = chrono::system_clock::now();
+
         // For testing purposes
         register_tracker_error_returner(get_self_vm_bytes, "VM bytes");
         register_tracker_error_returner(get_self_resident_bytes, "RSS bytes");
@@ -140,10 +149,7 @@ namespace {
 
 void annotate(const char * str)
 {
-    chrono::duration<double> diff = chrono::system_clock::now() - start_time;
-    double diff_sec = diff.count();
-
-    annotations.push_back(std::make_pair(diff_sec, std::string(str)));
+    annotations.push_back(std::make_pair(elapsed_sec(), std::string(str)));
 }
 
 void register_tracker_error_returner(error_returner_t tracker, char const * key)
