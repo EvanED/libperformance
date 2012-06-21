@@ -17,7 +17,7 @@
 namespace chrono = boost::chrono;
 using boost::thread;
 
-#include "../../../monitor/src/monitor.h"
+#include "monitor.h"
 
 
 namespace {
