@@ -136,7 +136,7 @@ namespace {
         }
         std::for_each(callbacks.begin(), callbacks.end(),
                       [](Callback & cb) {
-                          cb("],\n\"annotations\": [");
+                          cb("{}],\n\"annotations\": [");
                       });
         std::string all_annots_str = boost::join(annotations | transformed(stringize_annotation), ",\n  ");
         char const * all_annots_cstr = all_annots_str.c_str();
@@ -159,9 +159,9 @@ namespace {
 
         // For testing purposes
         register_tracker_error_returner(get_self_vm_bytes, "VM bytes");
-        //register_tracker_error_returner(get_self_resident_bytes, "RSS bytes");
-        //register_tracker_error_returner(get_self_vm_bytes_peak, "VM bytes peak");
-        //register_tracker_error_returner(get_self_resident_bytes_peak, "RSS bytes peak");
+        register_tracker_error_returner(get_self_resident_bytes, "RSS bytes");
+        register_tracker_error_returner(get_self_vm_bytes_peak, "VM bytes peak");
+        register_tracker_error_returner(get_self_resident_bytes_peak, "RSS bytes peak");
 
         register_monitor_callback([](char const * str) -> void { std::cout << str << "\n"; });
 
