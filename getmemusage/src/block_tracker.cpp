@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-
+#include <cstring>
 
 #include <boost/chrono.hpp>
 

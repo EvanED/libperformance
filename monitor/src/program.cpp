@@ -1,9 +1,11 @@
+#include <iostream>
+
 #ifdef _MSC_VER
 #include <Windows.h>
 #define SLEEP Sleep(500);
 #else
 #include <unistd.h>
-#define SLEEP sleep(10);
+#define SLEEP usleep(500000);
 #endif
 
 extern "C" void annotate(const char * str);

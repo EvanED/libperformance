@@ -3,7 +3,8 @@
 Import("blank_env")
 
 sources = Split("""
-    getmemusage.cpp
+    getmemusage.posix.cpp
+    getmemusage.common.cpp
     block_tracker.cpp
     """)
 
