@@ -16,7 +16,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="monitor.windows.cpp">
+    <ClCompile Include="..\..\..\monitor\src\monitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
