@@ -1,3 +1,11 @@
+import json
+
+with open("blah.json") as input:
+    run_info = json.load(input)
+    data = run_info["measurements"]
+    annotations = run_info["annotations"]
+
+
 data = [
     [0.251426, 19, 1,19, 1],
     [0.501448, 20, 1,20, 1],
@@ -35,23 +43,13 @@ plt.plot(elapsed, vm_bytes_peak, "k",
          elapsed, vm_resident_bytes_peak, "k",
          elapsed, vm_bytes, "r",
          elapsed, resident_bytes, "b")
-plt.annotate("allocate (0.252019sec)", xy=(0.252019,1), xytext=(0.252019,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("allocate (0.751594sec)", xy=(0.751594,1), xytext=(0.751594,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("allocate (1.25168sec)", xy=(1.25168,1), xytext=(1.25168,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("allocate and initialize (1.75163sec)", xy=(1.75163,1), xytext=(1.75163,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("allocate and initialize (2.25168sec)", xy=(2.25168,1), xytext=(2.25168,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("allocate and initialize (2.7516sec)", xy=(2.7516,1), xytext=(2.7516,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (3.25165sec)", xy=(3.25165,1), xytext=(3.25165,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (3.50156sec)", xy=(3.50156,1), xytext=(3.50156,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (3.75162sec)", xy=(3.75162,1), xytext=(3.75162,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (4.00064sec)", xy=(4.00064,1), xytext=(4.00064,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (4.25066sec)", xy=(4.25066,1), xytext=(4.25066,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (4.50065sec)", xy=(4.50065,1), xytext=(4.50065,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (4.75064sec)", xy=(4.75064,1), xytext=(4.75064,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (5.00064sec)", xy=(5.00064,1), xytext=(5.00064,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (5.25067sec)", xy=(5.25067,1), xytext=(5.25067,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (5.50065sec)", xy=(5.50065,1), xytext=(5.50065,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (5.75063sec)", xy=(5.75063,1), xytext=(5.75063,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("deallocate (6.00064sec)", xy=(6.00064,1), xytext=(6.00064,1), rotation="vertical", va="bottom", size="x-small")
-plt.annotate("Program end (6.00067sec)", xy=(6.00067,1), xytext=(6.00067,1), rotation="vertical", va="bottom", size="x-small")
+
+for annotation in annotations:
+    time = annotation["time_offset_sec"]
+    text = annotation["annotation"]
+
+    text = "%s (%s sec)" % (text, str(time))
+
+    plt.annotate(text, xy=(time,1), xytext=(time,1), rotation="vertical", va="bottom", size="x-small")
+
 plt.savefig("blah.pdf", format="pdf")
