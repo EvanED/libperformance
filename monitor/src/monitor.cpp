@@ -160,8 +160,8 @@ namespace {
         // For testing purposes
         register_tracker_error_returner(get_self_vm_bytes, "VM bytes");
         register_tracker_error_returner(get_self_resident_bytes, "RSS bytes");
-        register_tracker_error_returner(get_self_vm_bytes_peak, "VM bytes peak");
-        register_tracker_error_returner(get_self_resident_bytes_peak, "RSS bytes peak");
+        //register_tracker_error_returner(get_self_vm_bytes_peak, "VM bytes peak");
+        //register_tracker_error_returner(get_self_resident_bytes_peak, "RSS bytes peak");
 
         register_monitor_callback([](char const * str) -> void { std::cout << str << "\n"; });
 
