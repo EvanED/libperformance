@@ -9,11 +9,14 @@
 #include "getmemusage.h"
 
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/range/adaptor/transformed.hpp>
+#include <boost/algorithm/string/join.hpp>
 #include <boost/thread/thread_time.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/chrono.hpp>
 #include <boost/thread.hpp>
 
+namespace adaptors = boost::adaptors;
 namespace chrono = boost::chrono;
 using boost::thread;
 
@@ -82,13 +85,14 @@ namespace {
         return diff.count();
     }
 
-    typedef std::vector<std::pair<double, std::string>> annotation_list;
+    typedef std::pair<double, std::string> Annotation;
+    typedef std::vector<Annotation> annotation_list;
     annotation_list annotations;
 
     void alarm()
     {
         std::stringstream ss;
-        ss << "{ ";
+        ss << "  { ";
         ss << "\"time_offset_sec\": " << elapsed_sec() << ", ";
         //std::vector<Tracker> trackers;
         std::for_each(trackers.begin(), trackers.end(),
@@ -96,7 +100,7 @@ namespace {
                           ss << "\"" << t.second << "\": " << t.first() << ", ";
                       });
 
-        ss << "}";
+        ss << "},";
 
         std::string const & str = ss.str();
         char const * cstr = str.c_str();
@@ -112,10 +116,34 @@ namespace {
 
     void loop_the_loop()
     {
+        std::for_each(callbacks.begin(), callbacks.end(),
+                      [](Callback & cb) {
+                          cb("{\"measurements\": [");
+                      });
         while(gogogo) {
           thread::sleep(boost::get_system_time() + boost::posix_time::milliseconds(250));
           alarm();
         }
+        std::for_each(callbacks.begin(), callbacks.end(),
+                      [](Callback & cb) {
+                          cb("],\n\"annotations\": [");
+                      });
+        std::for_each(annotations.begin(), annotations.end(),
+                      [](Annotation const & ann) {
+                          std::stringstream ss;
+                          ss << "  { \"time_offset_sec\": " << ann.first << ", "
+                             << "\"annotation\": \"" << ann.second << "\"},";
+                          std::string const & str = ss.str();
+                          char const * cstr = str.c_str();
+                          std::for_each(callbacks.begin(), callbacks.end(),
+                                        [cstr](Callback & cb) {
+                                            cb(cstr);
+                                        });
+                      });
+        std::for_each(callbacks.begin(), callbacks.end(),
+                      [](Callback & cb) {
+                          cb("]}");
+                      });
     }
 
     thread loop_thread;
