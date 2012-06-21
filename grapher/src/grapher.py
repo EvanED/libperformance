@@ -39,10 +39,10 @@ data_t = zip(*data)
 import matplotlib
 matplotlib.use("PDF")
 import matplotlib.pyplot as plt
-plt.plot(elapsed, vm_bytes_peak, "k",
-         elapsed, vm_resident_bytes_peak, "k",
-         elapsed, vm_bytes, "r",
-         elapsed, resident_bytes, "b")
+plt.plot(elapsed, vm_bytes_peak, "k")
+plt.plot(elapsed, vm_resident_bytes_peak, "k")
+plt.plot(elapsed, vm_bytes, "r")
+plt.plot(elapsed, resident_bytes, "b")
 
 for annotation in annotations:
     time = annotation["time_offset_sec"]
