@@ -11,19 +11,49 @@
 #include <boost/algorithm/string/join.hpp>
 #include <boost/thread/thread_time.hpp>
 #include <boost/scoped_ptr.hpp>
-#include <boost/chrono.hpp>
 #include <boost/thread.hpp>
+
+#define HAS_BOOST_CHRONO 0
+#if HAS_BOOST_CHRONO
+#  include <boost/chrono.hpp>
+#else
+#  include <boost/date_time/posix_time/posix_time_types.hpp>
+#endif
+
 
 #include "getmemusage.h"
 #include "monitor.h"
-
-namespace chrono = boost::chrono;
 
 using boost::adaptors::transformed;
 using boost::thread;
 
 
 namespace {
+#if HAS_BOOST_CHRONO
+    typedef boost::chrono::system_clock::time_point TimePoint;
+    typedef boost::chrono::duration<double> Duration;
+
+    TimePoint now() {
+	return chrono::system_clock::now();
+    }
+
+    double seconds(Duration diff) {
+	return diff.count();
+    }
+#else
+    typedef boost::posix_time::ptime TimePoint;
+    typedef boost::posix_time::time_duration Duration;
+
+    TimePoint now() {
+	return boost::posix_time::microsec_clock::universal_time();
+    }
+
+    double seconds(Duration diff) {
+	return double(diff.total_milliseconds())/1000;
+    }
+#endif
+
+
     struct ErrorReturnerWrapper {
         error_returner_t const func;
 
@@ -76,13 +106,14 @@ namespace {
     void end();
     
     bool start_time_set = false;
-    chrono::system_clock::time_point start_time;
+    TimePoint start_time;
 
     double elapsed_sec()
     {
         assert(start_time_set);
-        chrono::duration<double> diff = chrono::system_clock::now() - start_time;
-        return diff.count();
+        Duration diff = now() - start_time;
+
+        return seconds(diff);
     }
 
     typedef std::pair<double, std::string> Annotation;
@@ -155,7 +186,7 @@ namespace {
     void start()
     {
         start_time_set = true;
-        start_time = chrono::system_clock::now();
+        start_time = now();
 
         // For testing purposes
         register_tracker_error_returner(get_self_vm_bytes, "VM bytes");

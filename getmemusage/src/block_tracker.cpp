@@ -2,15 +2,43 @@
 #include <string>
 #include <cstring>
 
-#include <boost/chrono.hpp>
+#define HAS_BOOST_CHRONO 0
+#if HAS_BOOST_CHRONO
+#  include <boost/chrono.hpp>
+#else
+#  include <boost/date_time/posix_time/posix_time_types.hpp>
+#endif
 
 #include "getmemusage.h"
 #include "block_tracker.hpp"
 
-namespace chrono = boost::chrono;
+
 
 namespace details {
-    typedef chrono::system_clock::time_point TimePoint;
+#if HAS_BOOST_CHRONO
+    typedef boost::chrono::system_clock::time_point TimePoint;
+    typedef boost::chrono::duration<double> Duration;
+
+    TimePoint now() {
+	return chrono::system_clock::now();
+    }
+
+    double seconds(Duration diff) {
+	return diff.count();
+    }
+#else
+    typedef boost::posix_time::ptime TimePoint;
+    typedef boost::posix_time::time_duration Duration;
+
+    TimePoint now() {
+	return boost::posix_time::microsec_clock::universal_time();
+    }
+
+    double seconds(Duration diff) {
+	return double(diff.total_milliseconds())/1000;
+    }
+#endif
+
 
     template<typename T>
     void
@@ -63,7 +91,7 @@ block_tracker::start()
 {
     assert(!is_running());
 
-    pimpl->start_time = chrono::system_clock::now();
+    pimpl->start_time = details::now();
     get_self_memory_usage(&pimpl->start_memory);
     pimpl->has_reported = false;
 }
@@ -74,10 +102,10 @@ block_tracker::stop()
     assert(is_running());
 
     // Update the time
-    details::TimePoint end_time = chrono::system_clock::now();
-    chrono::duration<double> diff = end_time - pimpl->start_time;
+    details::TimePoint end_time = details::now();
+    details::Duration diff = end_time - pimpl->start_time;
 
-    double sec = diff.count();
+    double sec = details::seconds(diff);
 
     pimpl->cumulative_time_sec += sec;
 
