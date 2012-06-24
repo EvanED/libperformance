@@ -1,6 +1,9 @@
 PerfCounter
 ===========
 
+**IMPORTANT**: These instructions are a bit out of date. Check the CHANGES
+  file.
+
 
 Overview
 ========
