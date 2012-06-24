@@ -6,6 +6,7 @@ sources = Split("""
     getmemusage.posix.cpp
     getmemusage.common.cpp
     block_tracker.cpp
+    monitor.cpp
     """)
 
 headers = [

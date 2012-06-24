@@ -43,16 +43,6 @@ env_link_to_getmemusage.Append(CPPPATH = [os.path.join(prefix, "include")])
 
 env_link_to_getmemusage.SConscript("getmemusage/tests/SConscript")
 
-###################################
-#### Build monitor.so
+#### Build monitor tests
 
-monitor = env_link_to_getmemusage.SConscript("monitor/src/SConscript")
-
-install_under(prefix, env_link_to_getmemusage, monitor)
-
-#### Build tests
-
-env_link_to_monitor = env_link_to_getmemusage.Clone()
-env_link_to_monitor.Append(LIBS=["monitor"])
-
-env_link_to_monitor.Program("dumb", "monitor/src/program.cpp")
+env_link_to_getmemusage.Program("dumb", "monitor/src/program.cpp")
