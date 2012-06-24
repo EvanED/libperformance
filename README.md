@@ -1,5 +1,5 @@
-PerfCounter
-===========
+libperformance
+==============
 
 **IMPORTANT**: These instructions are a bit out of date. Check the CHANGES
   file.
@@ -23,9 +23,9 @@ three main features:
   program over time, optionally with annotations showing program events.
 
 For example, this graph was generated from
-[`monitor/src/program.cpp`](https://github.com/EvanED/perfcounter/blob/master/monitor/src/program.cpp):
+[`monitor/src/program.cpp`](https://github.com/EvanED/libperformance/blob/master/monitor/src/program.cpp):
 
-![Memory usage graph](https://github.com/EvanED/perfcounter/raw/master/doc/example.png)
+![Memory usage graph](https://github.com/EvanED/libperformance/raw/master/doc/example.png)
 
 Caveats
 -------
@@ -70,7 +70,7 @@ Querying the memory use of a program
 
 *The query portion works with C and C++.*
 
-`PerfCounter` provides a function which allows you to get the memory use of
+`Libperformance` provides a function which allows you to get the memory use of
 any process, as well as a shortcut for this process. The signatures are
 simple:
 
@@ -179,7 +179,7 @@ time. The `annotate()` function works with C or C++.*
 
 This will allow you to easily create graphs such as the following:
 
-![Memory usage graph](https://github.com/EvanED/perfcounter/raw/master/doc/example.png)
+![Memory usage graph](https://github.com/EvanED/libperformance/raw/master/doc/example.png)
 
 In this graph, the red line is the VM size, the blue line is the
 resident/working set size, and the black lines are the peak versions of those
