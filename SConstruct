@@ -27,7 +27,7 @@ blank_env.Append(CCFLAGS=["-g"])
 ###################################
 #### Build getmemusage.so
 
-getmemusage = blank_env.SConscript("getmemusage/src/SConscript")
+getmemusage = blank_env.SConscript("src/SConscript")
 
 install_under(prefix, blank_env, getmemusage)
 
