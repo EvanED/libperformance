@@ -36,7 +36,7 @@ install_under(prefix, blank_env, getmemusage)
 env_link_to_getmemusage = blank_env.Clone()
 Export("env_link_to_getmemusage")
 
-env_link_to_getmemusage.Append(LIBS = ["getmemusage", "rt"])
+env_link_to_getmemusage.Append(LIBS = ["performance", "rt"])
 env_link_to_getmemusage.Append(LIBPATH = [os.path.join(prefix, "lib")])
 env_link_to_getmemusage.Append(RPATH_TRANSFORM = [os.path.join(prefix, "lib")])
 env_link_to_getmemusage.Append(CPPPATH = [os.path.join(prefix, "include")])
