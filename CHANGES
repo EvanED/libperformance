@@ -1,5 +1,7 @@
 2012 June 23:
 
+* There is now only one library, now called libperformance.
+
 * libmonitor no longer automatically starts. Instead, set the environment
   variable PERF_GRAPH_FILENAME to where you want it to go.
 

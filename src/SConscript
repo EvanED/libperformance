@@ -13,7 +13,7 @@ headers = [
     blank_env.File("getmemusage.h"),
     blank_env.File("block_tracker.hpp")
     ]
-lib = blank_env.SharedLibrary("getmemusage", sources)
+lib = blank_env.SharedLibrary("performance", sources)
 
 files = {
     "lib": lib,
