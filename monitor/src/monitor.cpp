@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <cassert>
+#include <cstring>
 #include <vector>
 
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -27,6 +28,7 @@
 using boost::adaptors::transformed;
 using boost::thread;
 
+std::string const perfgraph_filename_key = "PERFGRAPH_FILENAME";
 
 namespace {
 #if HAS_BOOST_CHRONO
@@ -183,18 +185,12 @@ namespace {
 
     thread loop_thread;
 
+    std::ofstream outfile;
+
     void start()
     {
         start_time_set = true;
         start_time = now();
-
-        // For testing purposes
-        register_tracker_error_returner(get_self_vm_bytes, "VM bytes");
-        register_tracker_error_returner(get_self_resident_bytes, "RSS bytes");
-        //register_tracker_error_returner(get_self_vm_bytes_peak, "VM bytes peak");
-        //register_tracker_error_returner(get_self_resident_bytes_peak, "RSS bytes peak");
-
-        register_monitor_callback([](char const * str) -> void { std::cout << str << "\n"; });
 
         loop_thread = thread(loop_the_loop);
     }
@@ -206,7 +202,42 @@ namespace {
         loop_thread.join();
     }
 
-    ConstructionRunner starter(start);
+    void register_graph_output_file(char const * filename)
+    {
+        if (outfile.is_open()) {
+            throw "libperfgraph: outfile has already been opened";
+        }
+
+        outfile.open(filename);
+
+        if (!outfile.good()) {
+            std::stringstream ss;
+            ss << "libperfgraph: could not open file " << filename;
+            throw strdup(ss.str().c_str());
+        }
+        
+        register_monitor_callback([](char const * str) -> void { outfile << str << "\n"; });
+    }
+
+    void autostart()
+    {
+        char const * filename = std::getenv(perfgraph_filename_key.c_str());
+        if (filename != nullptr) {
+            try {
+                register_graph_output_file(filename);
+            }
+            catch (char const * s) {
+                std::cout << s << "\n";
+                std::cout << "libperfgraph: not active";
+            }
+
+            register_tracker_error_returner(get_self_vm_bytes, "VM bytes");
+            register_tracker_error_returner(get_self_resident_bytes, "RSS bytes");
+            start();            
+        }
+    }
+
+    ConstructionRunner starter(autostart);
     DestructionRunner ender(end);
 }
 
