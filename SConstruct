@@ -15,11 +15,11 @@ prefix = "#/install"
 blank_env = Environment()
 Export("blank_env")
 
-blank_env["CXX"] = "/s/gcc-4.6.1/bin/g++"
-blank_env.Append(CXXFLAGS=["-std=gnu++0x"])
-blank_env.Append(CPPPATH=["/unsup/boost-1.49.0/include"])
-blank_env.Append(LIBPATH=["/unsup/boost-1.49.0/lib"])
-blank_env.Append(RPATH=["/unsup/boost-1.49.0/lib"])
+#blank_env["CXX"] = "/s/gcc-4.6.1/bin/g++"
+blank_env.Append(CXXFLAGS=["-std=c++0x"])
+#blank_env.Append(CPPPATH=["/unsup/boost-1.49.0/include"])
+#blank_env.Append(LIBPATH=["/unsup/boost-1.49.0/lib"])
+#blank_env.Append(RPATH=["/unsup/boost-1.49.0/lib"])
 #blank_env.Append(LIBS=["boost_system", "boost_chrono", "boost_thread"])
 blank_env.Append(LIBS=["boost_thread"])
 blank_env.Append(CCFLAGS=["-g"])

@@ -1,0 +1,7 @@
+2012 June 23:
+
+* libmonitor no longer automatically starts. Instead, set the environment
+  variable PERFGRAPH_FILENAME to where you want it to go.
+
+* block_tracker now has an optional bool parameter to the constructor that
+  will let you tell it whether to start or not

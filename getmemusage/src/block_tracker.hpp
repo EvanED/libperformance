@@ -19,7 +19,9 @@ class block_tracker
     
 public:
     block_tracker();
+    block_tracker(bool autostart);
     block_tracker(std::string const & desc);
+    block_tracker(std::string const & desc, bool autostart);
 
     void start();
     void stop();

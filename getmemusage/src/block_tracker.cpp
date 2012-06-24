@@ -86,6 +86,23 @@ block_tracker::block_tracker(std::string const & desc)
     start();
 }
 
+block_tracker::block_tracker(bool autostart)
+    : pimpl(new details::block_tracker_impl)
+{
+    if (autostart) {
+        start();
+    }
+}
+    
+block_tracker::block_tracker(std::string const & desc, bool autostart)
+    : pimpl(new details::block_tracker_impl)
+{
+    pimpl->description = desc;
+    if (autostart) {
+        start();
+    }
+}
+
 void
 block_tracker::start()
 {
