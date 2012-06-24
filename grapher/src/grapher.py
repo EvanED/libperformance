@@ -1,4 +1,15 @@
 import json
+import sys
+
+try:
+    [prog, dash_o, out_pdf, in_json] = sys.argv
+    if dash_o != "-o":
+        [a,b] = [1]
+except ValueError:
+    print "Usage:", sys.argv[0], " -o out.pdf in.json"
+    print "(Yes, it's specific for now)"
+    sys.exit(1)
+
 
 _next_color = ["r", "b", "g"]
 def next_color():
@@ -10,7 +21,7 @@ def next_color():
     except IndexError:
         return "k"
 
-with open("blah.json") as input:
+with open(in_json) as input:
     run_info = json.load(input)
     data = run_info["measurements"]
     assert data[-1] == {}
@@ -45,4 +56,4 @@ for annotation in annotations:
 
     plt.annotate(text, xy=(time,1), xytext=(time,1), rotation="vertical", va="bottom", size="x-small")
 
-plt.savefig("blah.pdf", format="pdf")
+plt.savefig(out_pdf, format="pdf")
