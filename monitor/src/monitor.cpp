@@ -23,12 +23,14 @@
 
 
 #include "getmemusage.h"
+#include "block_tracker.hpp"
 #include "monitor.h"
 
 using boost::adaptors::transformed;
 using boost::thread;
 
-std::string const perfgraph_filename_key = "PERFGRAPH_FILENAME";
+std::string const perfgraph_filename_key = "PERF_GRAPH_FILENAME";
+std::string const perfgraph_report_total_key = "PERF_REPORT_TOTAL";
 
 namespace {
 #if HAS_BOOST_CHRONO
@@ -187,6 +189,8 @@ namespace {
 
     std::ofstream outfile;
 
+    block_tracker tracker("whole program", false);
+
     void start()
     {
         start_time_set = true;
@@ -235,6 +239,11 @@ namespace {
             register_tracker_error_returner(get_self_resident_bytes, "RSS bytes");
             start();            
         }
+
+        const char * report = std::getenv(perfgraph_report_total_key.c_str());
+        if (report != nullptr) {
+            tracker.start();
+        }
     }
 
     ConstructionRunner starter(autostart);
@@ -243,7 +252,9 @@ namespace {
 
 void annotate(const char * str)
 {
-    annotations.push_back(std::make_pair(elapsed_sec(), std::string(str)));
+    if (start_time_set) {
+        annotations.push_back(std::make_pair(elapsed_sec(), std::string(str)));
+    }
 }
 
 void register_tracker_error_returner(error_returner_t tracker, char const * key)
